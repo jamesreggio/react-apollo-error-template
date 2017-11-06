@@ -20,12 +20,22 @@ const peopleData = [
   { id: 3, name: 'Budd Deey' },
 ];
 
+const petData = [
+  { id: 1, name: 'Phonix' },
+  { id: 2, name: 'Tempe' },
+  { id: 3, name: 'Scottsdale' },
+];
+
 const QueryType = new GraphQLObjectType({
   name: 'Query',
   fields: {
     people: {
       type: new GraphQLList(PersonType),
       resolve: () => peopleData,
+    },
+    pets: {
+      type: new GraphQLList(PersonType),
+      resolve: () => petData,
     },
   },
 });
