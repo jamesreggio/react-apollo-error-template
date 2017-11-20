@@ -14,10 +14,12 @@ const PersonType = new GraphQLObjectType({
   },
 });
 
-const peopleData = [
-  { id: 1, name: 'John Smith' },
-  { id: 2, name: 'Sara Smith' },
-  { id: 3, name: 'Budd Deey' },
+let i = 0;
+
+const peopleData = (i) => [
+  { id: (i * 3) + 1, name: 'John Smith' },
+  { id: (i * 3) + 2, name: 'Sara Smith' },
+  { id: (i * 3) + 3, name: 'Budd Deey' },
 ];
 
 const QueryType = new GraphQLObjectType({
@@ -25,7 +27,7 @@ const QueryType = new GraphQLObjectType({
   fields: {
     people: {
       type: new GraphQLList(PersonType),
-      resolve: () => peopleData,
+      resolve: () => peopleData(i++),
     },
   },
 });

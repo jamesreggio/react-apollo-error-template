@@ -3,6 +3,16 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
 class App extends Component {
+  state = {
+    log: '',
+  };
+
+  componentWillReceiveProps() {
+    this.setState(({log}) => ({
+      log: [log, 'Received update to `data` prop'].join('\n'),
+    }));
+  }
+
   render() {
     const { data: { loading, people } } = this.props;
     return (
@@ -28,12 +38,23 @@ class App extends Component {
           <p>Loading…</p>
         ) : (
           <ul>
-            {people.map(person => <li key={person.id}>{person.name}</li>)}
+            {people.map(person => <li key={person.id}>{person.id}: {person.name}</li>)}
           </ul>
         )}
+        <button onClick={this.resetStore}>Reset Store</button>
+        <pre>
+          {this.state.log}
+        </pre>
       </main>
     );
   }
+
+  resetStore = () => {
+    this.props.client.resetStore();
+    this.setState(({log}) => ({
+      log: [log, 'Called `client.resetStore()`'].join('\n'),
+    }));
+  };
 }
 
 export default graphql(
